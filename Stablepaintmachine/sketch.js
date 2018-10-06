@@ -1,20 +1,17 @@
 var bubbles = [];
-var sliders = [];
-var labels = ['Count', 'Radius', 'Opacity', 'Trail', 'Movement', 'Lift', 'Gravity', 'Spread', 'Red Low', 'Red High', 'Green Low', 'Green High', 'Blue Low', 'Blue High', ]
-var HUDon = false;
-var resetButton;
 var showBg = true;
-var fading = false;
+var fadein = false;
+var fadeout = false;
 
 //setting up some arbitrary initial values so that the program runs.
-var count = 10;
-var rad = 100;
-var trans = 20;
-var streak = 20;
-var life = 12;
-var lift = 1;
-var grav = 1;
-var spread = 1;
+var count = 8;
+var rad = 50;
+var trans = 200;
+var streak = 70;
+var life = 10;
+var lift = 2;
+var grav = 2;
+var spread = 2;
 var redLow = 100;
 var redHigh = 255;
 var greenLow = 30;
@@ -28,42 +25,15 @@ var bgtrans = 0;
 function setup() {
 	//this used to be: createCanvas(windowWidth, windowHeight);
 	canvas = createCanvas(window.innerWidth, window.innerHeight)
-	frameRate(15);
+	frameRate(30);
   background(255);
-
-	for (var i = 0; i < 14; i++) {
-		sliders[i] = createSlider(0, 255, random(0, 255));
-		sliders[i].position(20, 100 + i * 20);
-		labels[i] = createP(labels[i]);
-		labels[i].position(160, 80 + i * 20);
-		labels[i].style('font-size','20px');
-		labels[i].style('font-family','Arial');
-	}
-
-//html text
-	intro = createP('Right-click to save image. <br> Spacebar to hide menu.<br>@7ittledreams - 2018')
-	intro.position (20, 00);
-	intro.style('font-size','20px');
-	intro.style('font-family','Arial');
-
-	backgroundOn = createCheckbox('Particle mode', false);
-	backgroundOn.position(20, 385);
-	backgroundOn.changed(backgroundChange);
-	backgroundOn.style('font-size','20px');
-	backgroundOn.style('font-family','Arial');
-
-	resetButton = createButton('Reset');
-	resetButton.position(20, 415);
-	resetButton.style('font-size','20px');
-	resetButton.style('font-family','Arial');
-
 	updateCount();
 
 }
 
 //function to set up new bubbles
 function updateCount(){
-  bubbles = [];
+  //bubbles = [];
 	for (var i = 0; i < count; i++){
 		var x = random(0, width);
 		var y = random(0, height);
@@ -79,6 +49,8 @@ function backgroundChange(){
 
 function draw() {
 
+
+
 //Dan Shiffman's function to resize canvas as window size changes.
 window.onresize = function() {
   var w = window.innerWidth;
@@ -86,25 +58,7 @@ window.onresize = function() {
   canvas.size(w,h);
   width = w;
   height = h;
-	// background(125);
 }
-
-//assigns each slider to a variable and sets the map to fit into 0-255
- // sliders[0].changed(updateCount);
- // count = map(sliders[0].value(), 0, 255, 2, 50);
- // rad = map(sliders[1].value(), 0, 255, 2, 150);
- // trans = map(sliders[2].value(), 0, 255, 2, 255);
- // streak = map(sliders[3].value(),0, 255, 0, 1000);
- // life = map(sliders[4].value(), 0, 255, 0, 50);
- // lift = map(sliders[5].value(), 0, 255, 0, 20);
- // grav = map(sliders[6].value(), 0, 255, 0, 20);
- // spread = map(sliders[7].value(), 0, 255, 0, 20);
- // redLow = sliders[8].value();
- // redHigh = sliders[9].value();
- // greenLow = sliders[10].value();
- // greenHigh = sliders[11].value();
- // blueLow = sliders[12].value();
- // blueHigh = sliders[13].value();
 
 //sets up bubbles and removes them if they are offscreen
 	for (var i = bubbles.length -1; i > 0; i--){
@@ -113,46 +67,32 @@ window.onresize = function() {
 		bubbles[i].move();
 		if (bubbles[i].offscreen > 0 && bubbles[i].history.length == 0) {
 			bubbles.splice(i, 1);
-			bubbles.push(new Bubble(random(0, width), random(0, height)));
+		//	bubbles.push(new Bubble(random(0, width), random(0, height)));
 		}
 	}
 
-//basically displays everything
-	for (var i = 0; i < sliders.length; i++){
-		if(HUDon == true){
-			sliders[i].show();
-			labels[i].show();
-			resetButton.show();
-			backgroundOn.show();
-			intro.show();
-		} else {
-			sliders[i].hide();
-			labels[i].hide();
-			resetButton.hide();
-			backgroundOn.hide();
-			intro.hide();
-		}
-	}
-	if (frameCount % 900 == 0){
-		fading = true;
+	if (bubbles.length === 1){
+		//setTimeout(updateCount, 3000);
+		fadeout = true;
 	}
 
-	if (fading == true && bgtrans <= 500){
-			fill(255, bgtrans);
-			noStroke();
-			rect(0, 0, width, height);
-			bgtrans = bgtrans + 5;
+	if (fadeout == true){
+			bgtrans = bgtrans + 2;
 		}
 
-	if (fading == true && bgtrans >= 500){
+	if (fadeout == true && bgtrans >= 175){
 				bgtrans = 0;
-				fading = false;
+				fadeout = false;
+				fadein = true;
 				updateCount();
-
 		}
 
+	fill(255, bgtrans);
+	noStroke();
+	rect(0, 0, width, height);
 
 }
+
 
 //triggers parameters to show and hide
 function keyPressed(){
@@ -160,17 +100,6 @@ function keyPressed(){
 		HUDon = !HUDon
 	}
 }
-
-
-// } else {
-// 	bgtrans = 0;
-// }
-//
-// if (bgtrans > 255){
-// 	bgtrans = 0;
-// 	fading = false;
-// 	updateCount();
-// }
 
 //bubble class below
 class Bubble{
@@ -182,7 +111,7 @@ class Bubble{
 		this.Blue = random(blueLow, blueHigh);
 		this.history = [];
 		this.offscreen = 0;
-		this.rad = random(rad * 0.5, rad * 1.5)
+		this.rad = random(rad * 0.25, rad * 1.75)
 	}
 
 	move(){
