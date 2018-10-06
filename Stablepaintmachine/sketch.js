@@ -6,12 +6,12 @@ var fadeout = false;
 //setting up some arbitrary initial values so that the program runs.
 var count = 8;
 var rad = 50;
-var trans = 200;
-var streak = 70;
+var trans = 5;
+var streak = 5;
 var life = 10;
-var lift = 2;
-var grav = 2;
-var spread = 2;
+var lift = 5;
+var grav = 5;
+var spread = 5;
 var redLow = 100;
 var redHigh = 255;
 var greenLow = 30;
@@ -25,7 +25,7 @@ var bgtrans = 0;
 function setup() {
 	//this used to be: createCanvas(windowWidth, windowHeight);
 	canvas = createCanvas(window.innerWidth, window.innerHeight)
-	frameRate(30);
+	frameRate(15);
   background(255);
 	updateCount();
 
