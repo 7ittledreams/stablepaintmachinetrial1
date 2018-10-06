@@ -1,27 +1,27 @@
-let bubbles = [];
-let sliders = [];
-let labels = ['Count', 'Radius', 'Opacity', 'Trail', 'Movement', 'Lift', 'Gravity', 'Spread', 'Red Low', 'Red High', 'Green Low', 'Green High', 'Blue Low', 'Blue High', ]
-let HUDon = false;
-let resetButton;
-let showBg = true;
-let fading = false;
+var bubbles = [];
+var sliders = [];
+var labels = ['Count', 'Radius', 'Opacity', 'Trail', 'Movement', 'Lift', 'Gravity', 'Spread', 'Red Low', 'Red High', 'Green Low', 'Green High', 'Blue Low', 'Blue High', ]
+var HUDon = false;
+var resetButton;
+var showBg = true;
+var fading = false;
 
 //setting up some arbitrary initial values so that the program runs.
-let count = 10;
-let rad = 100;
-let trans = 20;
-let streak = 20;
-let life = 12;
-let lift = 1;
-let grav = 1;
-let spread = 1;
-let redLow = 100;
-let redHigh = 255;
-let greenLow = 30;
-let greenHigh = 180;
-let blueLow = 100;
-let blueHigh = 255;
-let bgtrans = 0;
+var count = 10;
+var rad = 100;
+var trans = 20;
+var streak = 20;
+var life = 12;
+var lift = 1;
+var grav = 1;
+var spread = 1;
+var redLow = 100;
+var redHigh = 255;
+var greenLow = 30;
+var greenHigh = 180;
+var blueLow = 100;
+var blueHigh = 255;
+var bgtrans = 0;
 
 
 
@@ -64,9 +64,9 @@ function setup() {
 //function to set up new bubbles
 function updateCount(){
   bubbles = [];
-	for (let i = 0; i < count; i++){
-		let x = random(0, width);
-		let y = random(0, height);
+	for (var i = 0; i < count; i++){
+		var x = random(0, width);
+		var y = random(0, height);
 		bubbles [i] = new Bubble(x, y);
 	}
 }
@@ -107,7 +107,7 @@ window.onresize = function() {
  // blueHigh = sliders[13].value();
 
 //sets up bubbles and removes them if they are offscreen
-	for (let i = bubbles.length -1; i > 0; i--){
+	for (var i = bubbles.length -1; i > 0; i--){
 		bubbles[i].show();
 		bubbles[i].trail();
 		bubbles[i].move();
